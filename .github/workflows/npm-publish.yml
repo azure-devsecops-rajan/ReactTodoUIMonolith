@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Ensure you're using the latest runner
     steps:
       # Checkout the repository
       - name: Checkout code
@@ -27,7 +27,7 @@ jobs:
 
       # Publish build artifacts for deployment
       - name: Publish build artifacts
-        uses: actions/upload-artifact@v3  # Use the latest version
+        uses: actions/upload-artifact@v2  # Use v2
         with:
           name: react-build
           path: ./build
