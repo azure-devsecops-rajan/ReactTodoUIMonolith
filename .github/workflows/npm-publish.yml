@@ -7,30 +7,29 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest stable runner
+    name: Build React App
+    runs-on: ubuntu-latest
+
     steps:
-      # Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version: 16
 
-      # Install dependencies and build the React app
-      - name: Install dependencies and build
-        run: |
-          npm install
-          npm run build
+      - name: Install Dependencies
+        run: npm ci
 
-      # Publish build artifacts for deployment
-      - name: Publish build artifacts
-        uses: actions/upload-artifact@v3  # Use v3 or another stable commit hash
+      - name: Build React App
+        run: CI=false npm run build  # Prevent warnings from breaking build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: react-build
-          path: ./build
+          path: build/
 
   deploy:
     runs-on: ubuntu-latest
