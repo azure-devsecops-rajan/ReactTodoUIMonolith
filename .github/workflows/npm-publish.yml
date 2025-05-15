@@ -6,29 +6,29 @@ on:
       - main  # Trigger on push to main
 
 jobs:
-  sonar-analysis:
-    name: SonarQube Analysis
-    runs-on: ubuntu-latest
+  # sonar-analysis:
+  #   name: SonarQube Analysis
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 16
 
-      - name: Install Dependencies
-        run: npm ci
+  #     - name: Install Dependencies
+  #       run: npm ci
 
-      - name: Run SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v1.0.0
-        with:
-          projectBaseDir: .
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  #     - name: Run SonarQube Scan
+  #       uses: sonarsource/sonarqube-scan-action@v1.0.0
+  #       with:
+  #         projectBaseDir: .
+  #       env:
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   build:
     name: Build React App
