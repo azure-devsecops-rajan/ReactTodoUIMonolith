@@ -1,15 +1,15 @@
-name: Deploy React App to VM
+name: Build and Deploy React App
 
 on:
   push:
     branches:
-      - main
+      - main   # Deploy only when there's a push to the main branch
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the code
+      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -25,16 +25,38 @@ jobs:
           npm install
           npm run build
 
-      # Copy the build artifacts over to the VM using SSH password
+      # Publish build artifacts for deployment
+      - name: Publish build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: react-build
+          path: ./build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      # Checkout the repository (again, because this is a new job)
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Download the build artifacts from the previous job
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: react-build
+          path: ./build
+
+      # Deploy the build to the VM using SSH and password
       - name: Deploy to VM using SSH and password
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          host: ${{ secrets.SSH_HOST }}  # VM's IP address
+          username: ${{ secrets.SSH_USER }}  # VM's username
+          password: ${{ secrets.SSH_PASSWORD }}  # VM's password
           port: 22
           script: |
-            # Commands to clear old build and deploy the new one
+            # Clean the target directory and copy the build files
             sudo chmod -R 777 /var/www/html
             sudo rm -rf /var/www/html/*
             sudo cp -r ./build/* /var/www/html/
