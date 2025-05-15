@@ -7,15 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Ensure you're using the latest runner
+    runs-on: ubuntu-latest
     steps:
       # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
 
@@ -25,9 +25,13 @@ jobs:
           npm install
           npm run build
 
+      # Debug Build Directory
+      - name: Debug Build Directory
+        run: ls -la ./build
+
       # Publish build artifacts for deployment
       - name: Publish build artifacts
-        uses: actions/upload-artifact@v2  # Use v2
+        uses: actions/upload-artifact@v3
         with:
           name: react-build
           path: ./build
