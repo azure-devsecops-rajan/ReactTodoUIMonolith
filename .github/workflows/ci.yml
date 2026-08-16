@@ -27,11 +27,11 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install --prefer-offline --no-audit --no-fund --silent
-
-      - name: Run tests
+        run: npm install --pr Run tests
         run: npm test -- --watchAll=false --detectOpenHandles
+efer-offline --no-audit --no-fund --silent
 
+      - name:
       - name: Build application
         run: npm run build
 
