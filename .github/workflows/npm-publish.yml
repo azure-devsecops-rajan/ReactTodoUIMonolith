@@ -1,9 +1,9 @@
 name: Build and Deploy React App
 
-on:
-  push:
-    branches:
-      - main   # Deploy only when there's a push to the main branch
+# on:
+  # push:
+  #   branches:
+  #     - main   # Deploy only when there's a push to the main branch
 
 jobs:
   build:
